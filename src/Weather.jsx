@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import styles from "./Weather.module.css";
 
 const Weather = () => {
   const [city, setCity] = useState("");
@@ -31,28 +32,62 @@ const Weather = () => {
   };
 
   return (
-    <>
-      <h2>Weather App</h2>
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Enter city name"
-      />
-      <button onClick={fetchData}>Get Weather</button>
-      {weatherData && (
-        <div className="container">
-          <h3>
-            {weatherData.name}, {weatherData.sys.country}
-          </h3>
-          <p>Temperature: {Math.round(weatherData.main.temp)}°C</p>
-          <p>Condition: {weatherData.weather[0].description}</p>
-          <p>Humidity: {weatherData.main.humidity}%</p>
-          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-          <p>timezon: {weatherData.sys.sunrise}</p>
+    <div className={styles.weatherApp}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>Weather App</h2>
+
+        <div className={styles.form}>
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Enter city name"
+            className={styles.input}
+          />
+          <button className={styles.button} onClick={fetchData}>
+            Get Weather
+          </button>
         </div>
-      )}
-    </>
+
+        {weatherData && (
+          <div className={styles.weatherDetails}>
+            <h3 className={styles.weatherHeading}>
+              {weatherData.name}, {weatherData.sys.country}
+            </h3>
+            <div className={styles.weatherRow}>
+              <span className={styles.weatherLabel}>Temperature</span>
+              <span className={styles.weatherValue}>
+                {Math.round(weatherData.main.temp)}°C
+              </span>
+            </div>
+            <div className={styles.weatherRow}>
+              <span className={styles.weatherLabel}>Condition</span>
+              <span className={styles.weatherValue}>
+                {weatherData.weather[0].description}
+              </span>
+            </div>
+            <div className={styles.weatherRow}>
+              <span className={styles.weatherLabel}>Humidity</span>
+              <span className={styles.weatherValue}>
+                {weatherData.main.humidity}%
+              </span>
+            </div>
+            <div className={styles.weatherRow}>
+              <span className={styles.weatherLabel}>Wind Speed</span>
+              <span className={styles.weatherValue}>
+                {weatherData.wind.speed} m/s
+              </span>
+            </div>
+            <div className={styles.weatherRow}>
+              <span className={styles.weatherLabel}>Sunrise</span>
+              <span className={styles.weatherValue}>
+                {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString()}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
